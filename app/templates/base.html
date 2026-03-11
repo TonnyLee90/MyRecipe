@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}recipe.com{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}" />
+  {% block head %}{% endblock %}
+</head>
+
+<body>
+  <!-- Top Nav -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <a class="logo" href="{{ url_for('home') }}">recipe<span>.com</span></a>
+    </div>
+
+    <form class="search" action="{{ url_for('search') }}" method="GET">
+      <input
+        name="q"
+        type="text"
+        placeholder="Search recipes (e.g., pasta, chicken, vegan)..."
+        value="{{ request.args.get('q','') }}"
+      />
+      <button type="submit">Search</button>
+    </form>
+
+    <div class="topbar-right">
+      <a class="btn ghost" href="{{ url_for('explore') }}">Explore</a>
+      <a class="btn ghost" href="{{ url_for('my_recipes') }}">My Recipes</a>
+      <a class="btn primary" href="{{ url_for('post_recipe') }}">Post Recipe</a>
+
+      {% if current_user %}
+        <a class="btn" href="{{ url_for('profile', username=current_user.username) }}">
+          {{ current_user.username }}
+        </a>
+        <a class="btn outline" href="{{ url_for('logout') }}">Log out</a>
+      {% else %}
+        <a class="btn" href="{{ url_for('login') }}">Log in</a>
+        <a class="btn outline" href="{{ url_for('signup') }}">Sign up</a>
+      {% endif %}
+    </div>
+  </header>
+
+  {% block content %}{% endblock %}
+
+  <footer class="footer">
+    <div>© {{ current_year }} recipe.com</div>
+    <div class="footer-links">
+      <a href="#">About</a>
+      <a href="#">Contact</a>
+    </div>
+  </footer>
+
+  {% block scripts %}{% endblock %}
+</body>
+</html>
