@@ -1,0 +1,22 @@
+.explore-grid{
+  display:grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-top: 10px;
+}
+
+.explore-grid .card{
+  display:flex;
+  flex-direction:column;
+  height:100%;
+}
+
+@media (max-width: 1100px){
+  .explore-grid{ grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 820px){
+  .explore-grid{ grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 480px){
+  .explore-grid{ grid-template-columns: 1fr; }
+}

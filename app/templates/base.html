@@ -16,13 +16,17 @@
     </div>
 
     <form class="search" action="{{ url_for('search') }}" method="GET">
-      <input
-        name="q"
-        type="text"
-        placeholder="Search recipes (e.g., pasta, chicken, vegan)..."
-        value="{{ request.args.get('q','') }}"
-      />
-      <button type="submit">Search</button>
+        <input
+            name="q"
+            type="text"
+            placeholder="Search recipes (e.g., pasta, chicken, vegan)..."
+            value="{{ request.args.get('q','') }}"
+        />
+        <button type="submit">Search</button>
+
+        {% block search_scope %}
+            <input type="hidden" name="scope" value="local">
+        {% endblock %}
     </form>
 
     <div class="topbar-right">
@@ -30,11 +34,11 @@
       <a class="btn ghost" href="{{ url_for('my_recipes') }}">My Recipes</a>
       <a class="btn primary" href="{{ url_for('post_recipe') }}">Post Recipe</a>
 
-      {% if current_user %}
-        <a class="btn" href="{{ url_for('profile', username=current_user.username) }}">
+      {% if current_user.is_authenticated %}
+        <a class="btn" href="{{ url_for('home', username=current_user.username) }}">
           {{ current_user.username }}
         </a>
-        <a class="btn outline" href="{{ url_for('logout') }}">Log out</a>
+        <a class="btn outline" href="{{ url_for('logout') }}">Logout</a>
       {% else %}
         <a class="btn" href="{{ url_for('login') }}">Log in</a>
         <a class="btn outline" href="{{ url_for('signup') }}">Sign up</a>
@@ -45,11 +49,7 @@
   {% block content %}{% endblock %}
 
   <footer class="footer">
-    <div>© {{ current_year }} recipe.com</div>
-    <div class="footer-links">
-      <a href="#">About</a>
-      <a href="#">Contact</a>
-    </div>
+    <div>© {{ current_year }} MyRecipe.com</div>
   </footer>
 
   {% block scripts %}{% endblock %}

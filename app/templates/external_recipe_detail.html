@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}{{ title }} · recipe.com{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/recipe_detail.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="page">
+  <div class="card detail-card">
+
+    <div class="detail-head">
+      <div>
+        <h1 class="detail-title">{{ title }}</h1>
+        <p class="detail-meta muted">
+          By TheMealDB
+        </p>
+      </div>
+    </div>
+    {% if image %}
+      <div class="detail-image">
+        <img src="{{ image }}" alt="{{ title }}" class="recipe-img">
+      </div>
+    {% endif %}
+
+    <div class="detail-grid">
+      <section class="card detail-panel instructions-panel">
+        <h3 class="panel-title">Instructions</h3>
+        {% if instructions %}
+          <pre class="detail-text" style="white-space: pre-wrap; margin: 0;">{{ instructions }}</pre>
+        {% else %}
+          <p class="muted">No instructions available.</p>
+        {% endif %}
+      </section>
+
+      <section class="card detail-panel ingredients-panel">
+        <h3 class="panel-title">Ingredients</h3>
+        {% if ingredients %}
+          <pre class="detail-text" style="white-space: pre-wrap; margin: 0;">{% for item in ingredients %}• {{ item }}
+{% endfor %}</pre>
+        {% else %}
+          <p class="muted">No ingredients available.</p>
+        {% endif %}
+      </section>
+    </div>
+  </div>
+</div>
+{% endblock %}

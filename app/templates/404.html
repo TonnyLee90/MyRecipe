@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}404 · recipe.com{% endblock %}
+
+{% block content %}
+<div class="page" style="max-width:900px; margin:60px auto; padding:0 16px; text-align:center;">
+
+  <div class="card" style="padding:40px 24px;">
+
+    <h1 style="font-size:64px; margin:0; letter-spacing:1px;">
+      404
+    </h1>
+
+    <h2 style="margin:10px 0 6px;">
+      Page Not Found
+    </h2>
+
+    <p class="muted" style="margin-bottom:24px;">
+      The recipe you're looking for doesn’t exist or may have been removed.
+    </p>
+
+    <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+      <a class="btn primary" href="{{ url_for('home') }}">Go Home</a>
+      <a class="btn outline" href="{{ url_for('explore') }}">Explore Recipes</a>
+    </div>
+
+  </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block title %}Explore · recipe.com{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/explore.css') }}">
+{% endblock %}
+
+{% block search_scope %}
+  <input type="hidden" name="scope" value="api">
+{% endblock %}
+
+{% block content %}
+<div class="page" style="max-width:1200px; margin:18px auto; padding:0 16px;">
+  <div class="section-title">
+    <h2>Explore | Random Picks</h2>
+  </div>
+
+  {% if meals and meals|length > 0 %}
+    <div class="explore-grid">
+      {% for m in meals %}
+        <article class="card post">
+          <a href="#" style="display:block; text-decoration:none; color:inherit;">
+            {% if m.thumb %}
+              <div style="border-radius:12px 12px 0 0; overflow:hidden;">
+                <img src="{{ m.thumb }}" alt="{{ m.name }}" style="width:100%; height:180px; object-fit:cover; display:block;">
+              </div>
+            {% endif %}
+
+            <div style="padding:14px;">
+              <div class="post-head" style="align-items:flex-start; gap:12px;">
+                <div style="flex:1;">
+                  <h3 class="post-title" style="margin:0 0 6px; font-size:16px;">{{ m.name }}</h3>
+                  <p class="post-meta" style="margin:0; font-size:13px; color:var(--muted);">
+                    {{ m.category }}{% if m.area %} · {{ m.area }}{% endif %}
+                  </p>
+                </div>
+              </div>
+
+              <p class="post-desc" style="margin:12px 0 0; color:#cfe0ff; line-height:1.45;">
+                {{ m.instructions_preview }}{% if m.instructions|length > 220 %}...{% endif %}
+              </p>
+
+              {% if m.tags %}
+                <div class="post-tags" style="margin-top:12px;">
+                  {% for t in m.tags %}
+                    {% if t %}
+                      <span class="tag">#{{ t }}</span>
+                    {% endif %}
+                  {% endfor %}
+                </div>
+              {% endif %}
+            </div>
+          </a>
+
+          <div style="padding:12px 14px 14px; display:flex; gap:10px; justify-content:space-between; align-items:center;">
+            <a class="action" href="{{ url_for('external_recipe',meal_id=m.id) }}">View</a>
+            <div style="color:var(--muted); font-size:13px;">Source: TheMealDB</div>
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="card sidebar-card">
+      <h3>No results</h3>
+      <p class="muted">Couldn't fetch recipes right now. Please try again later.</p>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

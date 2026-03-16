@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block title %}My Recipes · recipe.com{% endblock %}
+
+{% block content %}
+<div class="layout">
+
+  <main class="feed">
+    <div class="section-title">
+      <h2>My Recipes 🍔🍜🍱</h2>
+    </div>
+
+    {% if recipes and recipes|length > 0 %}
+      {% for r in recipes %}
+        <article class="card post">
+          <div class="post-head">
+            <div>
+              <h3 class="post-title">
+                <a href="{{ url_for('recipe_detail', recipe_id=r.id) }}">
+                  {{ r.title }}
+                </a>
+              </h3>
+
+              <p class="post-meta">
+                Posted {{ r.created_at.strftime('%b %d, %Y') if r.created_at else '' }}
+              </p>
+            </div>
+
+            <div class="post-actions">
+              {% if current_user.is_authenticated and r.author_id is defined and r.author_id == current_user.id %}
+                <form action="{{ url_for('delete_recipe', recipe_id=r.id) }}" method="POST" style="margin:0;">
+                  {{ form.hidden_tag() }}
+                  <button class="action" type="submit"
+                          onclick="return confirm('Delete this recipe?')">
+                    Delete
+                  </button>
+                </form>
+              {% endif %}
+            </div>
+          </div>
+
+          {# Ingredients preview from DB text #}
+          {% if r.ingredients %}
+            <p class="post-desc">
+              {{ r.ingredients[:220] }}{% if r.ingredients|length > 220 %}...{% endif %}
+            </p>
+          {% endif %}
+        </article>
+      {% endfor %}
+
+    {% else %}
+      <div class="card post">
+        <h3 class="post-title" style="margin:0 0 6px;">No recipes yet</h3>
+        <p class="post-meta" style="margin:0 0 12px;">Post your first recipe to see it here.</p>
+        <a class="btn primary" href="{{ url_for('post_recipe') }}">Post Recipe</a>
+      </div>
+    {% endif %}
+  </main>
+
+  <!-- Right Sidebar -->
+  <aside>
+    <div class="card sidebar-card">
+      <h3>Quick actions</h3>
+      <p class="muted">Manage your recipes faster.</p>
+
+      <div class="quick-actions">
+        <a class="btn primary full" href="{{ url_for('post_recipe') }}">+ Post Recipe</a>
+        <a class="btn outline full" href="{{ url_for('favorites') }}">♡ Saved</a>
+      </div>
+    </div>
+
+    <div class="card sidebar-card">
+      <h3>Stats 📈</h3>
+      <p class="muted">
+        Total recipes: <strong>{{ recipes|length if recipes else 0 }}</strong>
+      </p>
+    </div>
+  </aside>
+
+</div>
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}{{ recipe.title or recipe.name }} · recipe.com{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/recipe_detail.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="page">
+  <div class="card detail-card">
+
+    <div class="detail-head">
+      <div>
+        <h1 class="detail-title">{{ recipe.title }}</h1>
+        <p class="detail-meta muted">
+          By {{ recipe.author.username }}
+          · {{ recipe.created_at.strftime('%B %d, %Y at %I:%M %p') }}
+        </p>
+      </div>
+    </div>
+
+    <section class="card detail-panel description-panel">
+      <h3 class="panel-title">Description</h3>
+      {% if recipe.body %}
+        <pre class="detail-text" style="white-space: pre-wrap; margin: 0;">{{ recipe.body }}</pre>
+      {% else %}
+        <p class="muted">No description provided.</p>
+      {% endif %}
+    </section>
+
+    <div class="detail-grid">
+      <section class="card detail-panel instructions-panel">
+        <h3 class="panel-title">Instructions</h3>
+        {% if recipe.instructions %}
+          <pre class="detail-text" style="white-space: pre-wrap; margin: 0;">{{ recipe.instructions }}</pre>
+        {% else %}
+          <p class="muted">No instructions available.</p>
+        {% endif %}
+      </section>
+
+      <section class="card detail-panel ingredients-panel">
+        <h3 class="panel-title">Ingredients</h3>
+          <pre class="detail-text" style="white-space: pre-wrap; margin: 0;">{{ recipe.ingredients }}</pre>
+      </section>
+    </div>
+
+    <div class="detail-footer">
+      <div class="muted">
+        Source:
+        {% if recipe.source is defined and recipe.source == "api" %}
+          TheMealDB
+        {% else %}
+          Your Recipes
+        {% endif %}
+      </div>
+      <div class="detail-actions">
+        {% if current_user.is_authenticated %}
+          <form action="#" method="POST" style="display:inline;">
+            {{ csrf_token() if csrf_token is defined }}
+            <button class="btn primary" type="submit">Save</button>
+          </form>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}Log in | recipe.com{% endblock %}
+
+{% block head %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
+{% endblock %}
+
+{% block content %}
+<main class="auth-wrap">
+  <section class="auth-card">
+    <header class="auth-header">
+      <h1>Welcome back</h1>
+      <p class="muted">Log in to post and save recipes.</p>
+    </header>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="auth-messages">
+          {% for category, message in messages %}
+            <div class="alert {{ category }}">{{ message }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    {% if error %}
+      <div class="alert error">{{ error }}</div>
+    {% endif %}
+
+    <form class="auth-form" method="POST" novalidate>
+      {{ form.hidden_tag() }}
+
+      <div class="field">
+        {{ form.username.label(class="label") }}
+        {{ form.username(class="input", required=True) }}
+
+        {% if form.username.errors %}
+          <div class="field-errors">
+            {% for err in form.username.errors %}
+              <small class="error-text">{{ err }}</small>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="field">
+        {{ form.password.label(class="label") }}
+        {{ form.password(class="input", required=True) }}
+
+        {% if form.password.errors %}
+          <div class="field-errors">
+            {% for err in form.password.errors %}
+              <small class="error-text">{{ err }}</small>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="auth-row">
+        <a class="link subtle" href="#">Forgot password?</a>
+      </div>
+
+      {{ form.submit(class="btn primary full") }}
+
+      <p class="auth-footer">
+        <span class="muted">Don’t have an account?</span>
+        <a class="link strong" href="{{ url_for('signup') }}">Sign up</a>
+      </p>
+    </form>
+  </section>
+</main>
+{% endblock %}
