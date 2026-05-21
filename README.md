@@ -1,7 +1,13 @@
 # MyRecipe
 A community recipe-sharing web app built with Flask. Users can post their own recipes, browse and save recipes from others, and explore dishes from the [TheMealDB](https://www.themealdb.com/) API.
 
+---
+
 <img width="1915" height="647" alt="image" src="https://github.com/user-attachments/assets/b59cc235-e6be-4362-8b6b-317798493252" />
+
+---
+
+<img width="1889" height="712" alt="image" src="https://github.com/user-attachments/assets/0c7f8e43-616d-463f-b853-64c93ddca290" />
 
 ---
 
